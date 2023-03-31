@@ -44,6 +44,7 @@ app.MapPost("/api/addTarea", async ([FromServices] TareasContext dbContext, [Fro
 
 app.MapPut("/api/uTarea/{id}", async ([FromServices] TareasContext dbContext, [FromBody] Tarea tarea, [FromRoute] Guid id) =>
 {
+    
     var tareaActual = dbContext.Tareas.Find(id);
     if (tareaActual != null)
     {
@@ -52,6 +53,16 @@ app.MapPut("/api/uTarea/{id}", async ([FromServices] TareasContext dbContext, [F
         tareaActual.PrioridadTarea = tarea.PrioridadTarea;
         tareaActual.Descripcion = tarea.Descripcion;
 
+        await dbContext.SaveChangesAsync();
+        return Results.Ok();
+    }
+    return Results.NotFound();
+});
+
+app.MapDelete( "/api/delete/{id}" , async( [FromServices] TareasContext dbContext , [FromRoute] Guid id) => {
+    var actual = dbContext.Tareas.Find(id);
+    if(actual != null){
+        dbContext.Remove(actual);
         await dbContext.SaveChangesAsync();
         return Results.Ok();
     }

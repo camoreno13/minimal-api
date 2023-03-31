@@ -18,8 +18,6 @@ public class Tarea
     public Prioridad PrioridadTarea { get; set; }
     public DateTime FechaCreacion { get; set; }
     public virtual Categoria Categoria { get; set; }
-    // [NotMapped]
-    [JsonIgnore]
     public string Resumen {get; set;}
 }
 
